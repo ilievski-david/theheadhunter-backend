@@ -11,3 +11,18 @@ type Color struct {
 	Hex       string `json:"hex"`
 	Name      string `json:"name"`
 }
+
+type ColorGet struct {
+	UserToken string `json:"userToken"`
+}
+
+type ColorPost struct {
+	UserToken string `json:"userToken"`
+	Hex       string `json:"hex"`
+	Name      string `json:"name"`
+}
+
+type ColorRemove struct {
+	UserToken string `json:"userToken"`
+	ID        int    `json:"id"`
+}

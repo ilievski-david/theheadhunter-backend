@@ -1,14 +1,14 @@
 Start docker
-docker run -it -p 8080:8080 --env-file ./.env \
+docker run -d -p 8080:8080 --env-file ./.env \
     -v /root/server_ssl:/server_ssl \
     -e SERVER_SSL=/server_ssl   \
-    id997/theheadhunter-server:0.1.2
+    id997/theheadhunter-server:0.1.3
 
 Build docker
 docker build . --tag theheadhunter-server
 
 tag
-docker tag theheadhunter-server id997/theheadhunter-server:0.1.1
+docker tag theheadhunter-server id997/theheadhunter-server:0.1.3
 
 Push docker
-docker push id997/theheadhunter-server:0.1.1
+docker push id997/theheadhunter-server:0.1.3
