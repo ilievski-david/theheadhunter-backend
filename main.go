@@ -23,7 +23,7 @@ type colorGet struct {
 
 type colorRemove struct {
 	UserToken string `json:"userToken"`
-	ID        uint   `json:"id"`
+	ID        int    `json:"id"`
 }
 
 func getColors(context *gin.Context) {
@@ -67,10 +67,11 @@ func removeColor(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	result := initializers.DB.Raw("DELETE FROM colors WHERE id = ? AND user_token = ?", newColorRemove.ID, newColorRemove.UserToken)
+
+	result := initializers.DB.Exec(fmt.Sprintf("DELETE FROM colors WHERE id=%d AND user_token='%s'", newColorRemove.ID, newColorRemove.UserToken))
 	if result.RowsAffected == 0 {
 		// implement no color found
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		context.JSON(http.StatusBadRequest, gin.H{"error": result.Error.Error()})
 		return
 	}
 
