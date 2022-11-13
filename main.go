@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -118,7 +119,12 @@ func main() {
 	router.POST("/getColors", getColors)
 	router.POST("/addColor", addColor)
 	router.DELETE("/removeColor", removeColor)
-	//port is loaded from .env file
-	router.Run()
+	enviorment := os.Getenv("ENVIORMENT")
+	if enviorment == "production" {
+		ssl_folder := os.Getenv("SERVER_SSL")
+		router.RunTLS(":8080", ssl_folder+"/server.crt", ssl_folder+"/server.key")
+	} else {
+		router.Run(":8080")
+	}
 
 }
