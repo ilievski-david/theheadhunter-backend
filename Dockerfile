@@ -6,6 +6,7 @@ COPY ./main.go /app
 COPY ./go.mod /app
 COPY ./go.sum /app
 #COPY ./.env /app
+COPY ./handlers /app/handlers
 COPY ./models /app/models
 COPY ./initializers /app/initializers
 

@@ -26,11 +26,9 @@ func NewHandler(db *gorm.DB) Handler {
 }
 
 func (h *handler) GetColors(context *gin.Context) {
-	var newColorGet models.ColorGet
-	newColorGet.UserToken = context.Param("token")
-	//newColorGet.UserToken
+	userToken := context.Param("token")
 	var colors []models.Color
-	err := h.DB.Raw("SELECT * FROM colors WHERE user_token = ?", newColorGet.UserToken).Scan(&colors).Error
+	err := h.DB.Raw("SELECT * FROM colors WHERE user_token = ?", userToken).Scan(&colors).Error
 	if err != nil {
 		context.JSON(402, gin.H{"error": err.Error()})
 		return
