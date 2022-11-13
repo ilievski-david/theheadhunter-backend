@@ -7,15 +7,22 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/ilievski-david/theheadhunter-backend/handlers"
 	"github.com/ilievski-david/theheadhunter-backend/initializers"
+	"gorm.io/gorm"
 )
+
+var database *gorm.DB
 
 func init() {
 	initializers.LoadEnvVariables()
-	initializers.ConnectToDB()
+	_db, err := initializers.ConnectToDB()
+	if err != nil {
+		panic(err)
+	}
+	database = _db
 }
 
 func main() {
-	h := handlers.NewHandler(initializers.DB)
+	h := handlers.NewHandler(database)
 	router := gin.Default()
 	router.Use(cors.Default())
 	router.GET("/getColors/:token", h.GetColors)

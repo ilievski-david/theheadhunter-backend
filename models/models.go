@@ -12,10 +12,6 @@ type Color struct {
 	Name      string `json:"name"`
 }
 
-type ColorGet struct {
-	UserToken string `json:"userToken"`
-}
-
 type ColorPost struct {
 	UserToken string `json:"userToken"`
 	Hex       string `json:"hex"`
