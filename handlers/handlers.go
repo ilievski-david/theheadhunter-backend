@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/ilievski-david/theheadhunter-backend/crud"
 	"github.com/ilievski-david/theheadhunter-backend/models"
 	"gorm.io/gorm"
 )
@@ -16,19 +17,19 @@ type Handler interface {
 }
 
 type handler struct {
-	DB *gorm.DB
+	c_db crud.Database
 }
 
 func NewHandler(db *gorm.DB) Handler {
 	return &handler{
-		DB: db,
+		c_db: crud.NewCrudDatabase(db),
 	}
 }
 
 func (h *handler) GetColors(context *gin.Context) {
 	userToken := context.Param("token")
 	var colors []models.Color
-	err := h.DB.Raw("SELECT * FROM colors WHERE user_token = ?", userToken).Scan(&colors).Error
+	colors, err := h.c_db.QueryColors(userToken)
 	if err != nil {
 		context.JSON(402, gin.H{"error": err.Error()})
 		return
@@ -48,7 +49,6 @@ func (h *handler) AddColor(context *gin.Context) {
 	}
 	h.userHandler(newColorPost.UserToken)
 	code := h.colorHandler(newColorPost)
-	// how to send status codes?
 	context.JSON(code, gin.H{"code": code})
 
 }
@@ -60,11 +60,10 @@ func (h *handler) RemoveColor(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	result := h.DB.Exec("DELETE FROM colors WHERE id= ? AND user_token= ?", newColorRemove.ID, newColorRemove.UserToken)
-	if result.RowsAffected == 0 {
+	err = h.c_db.DeleteColor(newColorRemove)
+	if err != nil {
 		// implement no color found
-		context.JSON(http.StatusBadRequest, gin.H{"error": result.Error.Error()})
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -72,9 +71,9 @@ func (h *handler) RemoveColor(context *gin.Context) {
 }
 
 func (h *handler) userHandler(userToken string) {
-	result := h.DB.FirstOrCreate(&models.User{}, models.User{UserToken: userToken})
-	if result.Error != nil {
-		fmt.Println(result.Error)
+	err := h.c_db.InsertUser(userToken)
+	if err != nil {
+		fmt.Println(err.Error())
 	}
 }
 
@@ -84,8 +83,8 @@ func (h *handler) colorHandler(newColorPost models.ColorPost) int {
 	} else if len(newColorPost.Name) > 20 {
 		return 403
 	}
-	var colors []models.Color
-	err := h.DB.Raw("SELECT * FROM colors WHERE user_token = ?", newColorPost.UserToken).Scan(&colors).Error
+
+	colors, err := h.c_db.QueryColors(newColorPost.UserToken)
 	if err != nil {
 		return 404
 	}
@@ -98,6 +97,6 @@ func (h *handler) colorHandler(newColorPost models.ColorPost) int {
 			return 406
 		}
 	}
-	h.DB.Create(&models.Color{UserToken: newColorPost.UserToken, Hex: newColorPost.Hex, Name: newColorPost.Name})
+	h.c_db.InsertColor(newColorPost)
 	return 200
 }
