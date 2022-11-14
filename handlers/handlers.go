@@ -61,7 +61,7 @@ func (h *handler) RemoveColor(context *gin.Context) {
 		return
 	}
 
-	result := h.DB.Exec(fmt.Sprintf("DELETE FROM colors WHERE id=%d AND user_token='%s'", newColorRemove.ID, newColorRemove.UserToken))
+	result := h.DB.Exec("DELETE FROM colors WHERE id= ? AND user_token= ?", newColorRemove.ID, newColorRemove.UserToken)
 	if result.RowsAffected == 0 {
 		// implement no color found
 		context.JSON(http.StatusBadRequest, gin.H{"error": result.Error.Error()})
