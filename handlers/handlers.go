@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/ilievski-david/theheadhunter-backend/crud"
 	"github.com/ilievski-david/theheadhunter-backend/models"
-	"gorm.io/gorm"
 )
 
 type Handler interface {
@@ -20,9 +19,9 @@ type handler struct {
 	c_db crud.Database
 }
 
-func NewHandler(db *gorm.DB) Handler {
+func NewHandler(_crud crud.Database) Handler {
 	return &handler{
-		c_db: crud.NewCrudDatabase(db),
+		c_db: _crud,
 	}
 }
 
@@ -70,18 +69,16 @@ func (h *handler) RemoveColor(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"code": 200})
 }
 
-func (h *handler) userHandler(userToken string) {
-	err := h.c_db.InsertUser(userToken)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
+func (h *handler) userHandler(userToken string) error {
+	err := h.c_db.IgnoreOrInsertUser(userToken)
+	return err
 }
 
 func (h *handler) colorHandler(newColorPost models.ColorPost) int {
 	if newColorPost.Name == "" {
 		return 402
 	} else if len(newColorPost.Name) > 20 {
-		return 403
+		//return 403
 	}
 
 	colors, err := h.c_db.QueryColors(newColorPost.UserToken)

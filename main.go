@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/ilievski-david/theheadhunter-backend/crud"
 	"github.com/ilievski-david/theheadhunter-backend/handlers"
 	"github.com/ilievski-david/theheadhunter-backend/initializers"
 	"gorm.io/gorm"
@@ -22,7 +23,8 @@ func init() {
 }
 
 func main() {
-	h := handlers.NewHandler(database)
+	c_db := crud.NewCrudDatabase(database)
+	h := handlers.NewHandler(c_db)
 	router := gin.Default()
 	router.Use(cors.Default())
 	router.GET("/getColors/:token", h.GetColors)

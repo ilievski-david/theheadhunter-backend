@@ -7,7 +7,7 @@ import (
 
 type Database interface {
 	InsertColor(newColor models.ColorPost) error
-	InsertUser(token string) error
+	IgnoreOrInsertUser(token string) error
 	DeleteColor(newColorRemove models.ColorRemove) error
 	QueryColors(userToken string) ([]models.Color, error)
 }
@@ -27,7 +27,7 @@ func (d *database) InsertColor(newColorPost models.ColorPost) error {
 	return err
 }
 
-func (d *database) InsertUser(token string) error {
+func (d *database) IgnoreOrInsertUser(token string) error {
 	err := d.DB.FirstOrCreate(&models.User{}, models.User{UserToken: token}).Error
 	return err
 }
