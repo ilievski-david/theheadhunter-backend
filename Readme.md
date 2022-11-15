@@ -13,10 +13,9 @@ docker tag theheadhunter-server id997/theheadhunter-server:0.1.4
 Push docker
 docker push id997/theheadhunter-server:0.1.4
 
-# Frontend task
+# Backend task
 
-## Project info
-The app is created with vite. It uses typescript and react. Every feature from the tasks is implemented. The app is hosted on digital ocean app platform. On git push the app is built and published. The app is live at https://theheadhunter.davidilievski.dev/.
+
 
 ## Tasks
 ✅ DONE ❌ NOT DONE 👷 WIP
