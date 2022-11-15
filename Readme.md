@@ -13,7 +13,7 @@ docker tag theheadhunter-server id997/theheadhunter-server:0.1.4
 Push docker
 docker push id997/theheadhunter-server:0.1.4
 
-## Frontend task
+## Backend task
 
 ## Tasks
 ✅ DONE ❌ NOT DONE 👷 WIP
