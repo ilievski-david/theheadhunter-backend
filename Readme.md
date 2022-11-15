@@ -16,7 +16,7 @@ docker push id997/theheadhunter-server:0.1.4
 ## Frontend task
 
 ## Tasks
-✅ DONE ❌ NOT DONE
+✅ DONE ❌ NOT DONE 👷 WIP
 1. ✅ Go through the frontend task and implement its server side REST api.
 2. ✅ Use the Go programming language.
 3. ✅ Use whatever serialization (or in memory) solution you like to store data.
@@ -26,7 +26,7 @@ docker push id997/theheadhunter-server:0.1.4
 
 ### For extra points
 1. ✅ Use a postgres database to save data.
-2. ❌ Write tests.
+2. 👷 Write tests.
 3. ✅ Dockerize your app.
 4. ✅ Install your server somewhere (and share its URL with us).
 5. ✅ Create a README in your repo and add notes bout installation, implementation details or any important info about your solution.
