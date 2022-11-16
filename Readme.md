@@ -19,6 +19,8 @@ docker push id997/theheadhunter-server:0.1.4
 
 The server is coded with golang. I used gin for the http server and gorm as a database orm. The database I used is a managed postgres database hosted on digital ocean. The server is dockeriezed and hosted on a vps as a docker image. I also implemented ssl for https calls. The api is rest compliant. The address for the server is https://theheadhunter-server.davidilievski.dev:8080.
 
+The tests are under development in branch testing.
+
 ## Tasks
 ✅ DONE ❌ NOT DONE 👷 WIP
 1. ✅ Go through the frontend task and implement its server side REST api.
