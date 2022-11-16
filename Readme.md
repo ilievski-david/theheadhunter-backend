@@ -13,7 +13,9 @@ docker tag theheadhunter-server id997/theheadhunter-server:0.1.4
 Push docker
 docker push id997/theheadhunter-server:0.1.4
 
-## Backend task
+# Backend task
+
+## Project info
 
 The server is coded with golang. I used gin for the http server and gorm as a database orm. The database I used is a managed postgres database hosted on digital ocean. The server is dockeriezed and hosted on a vps as a docker image. I also implemented ssl for https calls. The api is rest compliant. The address for the server is https://theheadhunter-server.davidilievski.dev:8080.
 
@@ -32,3 +34,4 @@ The server is coded with golang. I used gin for the http server and gorm as a da
 3. ✅ Dockerize your app.
 4. ✅ Install your server somewhere (and share its URL with us).
 5. ✅ Create a README in your repo and add notes bout installation, implementation details or any important info about your solution.
+
